@@ -71,7 +71,7 @@ function updateTodoList(todoList) {
 //      'Google': 'https://www.google.com',
 //      'Facebook': 'https://www.facebook.com',
 //      'GitHub': 'https://github.com',
-//      'Galvanize': 'https://www.galvanize.com'
+//      'DevCommute': 'https://www.devcommute.com'
 //    }
 //
 // It returns the following:
@@ -79,7 +79,7 @@ function updateTodoList(todoList) {
 //      <li><a href="https://www.google.com">Google</a></li>
 //      <li><a href="https://www.facebook.com">Facebook</a></li>
 //      <li><a href="https://github.com">GitHub</a></li>
-//      <li><a href="https://www.galvanize.com">Galvanize</a></li>
+//      <li><a href="https://www.devcommute.com">DevCommute</a></li>
 //    </ul>
 // var object = ({
 //      'TITLE': 'URL',

@@ -138,7 +138,7 @@ window.onload = function() {
       var links = {
         'Google': 'https://www.google.com',
         'Facebook': 'https://www.facebook.com',
-        'Galvanize': 'https://www.galvanize.com'
+        'DevCommute': 'https://www.devcommute.com'
       };
       var list = createList(links);
       assert.strictEqual(list.tagName, 'UL');

@@ -40,7 +40,6 @@ window.onload = function() {
       addListText('Paint the Rooms', '');
       addListText('Complete the Inspection', 'COMPLETED');
       addListText('Review the Documents', '');
-      console.log('the ul', ul)
       updateTodoList(ul);
       assert.strictEqual(ul.childNodes.length, 2);
       assert.strictEqual(ul.firstChild.tagName, 'LI');
@@ -52,7 +51,6 @@ window.onload = function() {
       addListText('Paint the Rooms', 'URGENT');
       addListText('Complete the Inspection', '');
       addListText('Review the Documents', 'URGENT');
-      console.log('the ul', ul);
       updateTodoList(ul);
       assert.strictEqual(ul.childNodes.length, 4);
       assert.strictEqual(ul.childNodes[0].tagName, 'LI');
@@ -81,7 +79,7 @@ window.onload = function() {
       var links = {
         'Google': 'https://www.google.com',
         'Facebook': 'https://www.facebook.com',
-        'Galvanize': 'https://www.galvanize.com'
+        'DevCommute': 'https://www.devcommute.com'
       };
       var list = createList(links);
       assert.strictEqual(list.tagName, 'UL');
