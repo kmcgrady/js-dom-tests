@@ -5,7 +5,7 @@
 // The function will return true if the element has the specified className CSS
 // class applied.
 function hasClass(element, className) {
-
+  return $(element).hasClass(className);
 }
 
 
@@ -15,11 +15,10 @@ function hasClass(element, className) {
 // The function will add the 'visible' class to the div if it does not currently
 // have it. It removes the class if it already exists.
 function toggleVisible(div) {
-
+  $(div).toggleClass('visible');
 }
 
 
-// Use true to show the element or false to hide it.
 // Define a function named hideConfidentialText that takes in one argument.
 //   article (<article> DOM element)
 // Assume the article contains at least one paragraph.
@@ -27,7 +26,7 @@ function toggleVisible(div) {
 // The function will hide any child paragraphs of article if anywhere the text contains
 // "CONFIDENTIAL"
 function hideConfidentialText(article) {
-
+  $(article).find('p:contains("CONFIDENTIAL")').hide()
 }
 
 
@@ -37,7 +36,8 @@ function hideConfidentialText(article) {
 // The function will mark all sibling checkboxes, of the input checkbox, as "checked" if the input checkbox
 // is marked as "checked".
 function checkAll(checkbox) {
-
+  const isChecked = $(checkbox).prop('checked');
+  $(checkbox).siblings().prop('checked', isChecked);
 }
 
 
@@ -50,7 +50,9 @@ function checkAll(checkbox) {
 //     TIP: Applying a CSS class means adding on top of what's already there.
 //   * Make no change otherwise.
 function updateTodoList(todoList) {
-
+  const $list = $(todoList);
+  $list.find('li:contains("COMPLETED")').remove();
+  $list.find('li:contains("URGENT")').addClass('important');
 }
 
 
@@ -81,13 +83,16 @@ function updateTodoList(todoList) {
 //      <li><a href="https://github.com">GitHub</a></li>
 //      <li><a href="https://www.galvanize.com">Galvanize</a></li>
 //    </ul>
-// var object = ({
-//      'TITLE': 'URL',
-//      'TITLE': 'URL',
-//      'TITLE': 'URL',
-//    });
 function createList(sites) {
+  const $ul = $('<ul>');
+  for (title in sites) {
+    const $li = $('<li>');
+    const $a = $('<a>').attr('href', sites[title]).text(title);
+    $li.append($a);
+    $ul.append($li);
+  }
 
+  return $ul[0];
 }
 
 
@@ -115,7 +120,19 @@ function createList(sites) {
 // TIP: Assume that if there's an opening double quote, there's a closing
 // double quote as well.
 function extractQuote(articleTag) {
+  const $p = $(articleTag).find('p');
+  const text = $p.text();
+  const firstIndex = text.indexOf('"');
+  
+  if (firstIndex < 0) {
+    return;
+  }
 
+  const lastIndex = text.lastIndexOf('"');
+  const quote = text.substring(firstIndex, lastIndex + 1);
+  const $blockquote = $('<blockquote>').text(quote);
+
+  $p.replaceWith($blockquote);
 }
 
 
@@ -123,7 +140,7 @@ function extractQuote(articleTag) {
 //   data (array of arrays)
 //
 // The function must return a <table> DOM element that matches the structure of
-// the input data. The first element in the data array is the <thead> data, the
+// the input data. The first element in the data array is the <thead> data, the
 // last element is the <tfoot> data, and the remaining elements form the <tbody>
 // data. For example, given the following input:
 //    [
@@ -167,5 +184,31 @@ function extractQuote(articleTag) {
 // TIP: Assume that data array has at least three elements.
 // TIP: Assume that the elements of the data array are equal in length.
 function createTable(data) {
+  const thead = $('<thead>');
+  const tbody = $('<tbody>');
+  const tfoot = $('<tfoot>');
 
+  thead.append(createTableRow(data[0], 'th'));
+  tfoot.append(createTableRow(data[data.length - 1], 'td'));
+
+  for (let i= 1; i < data.length -1; i++){
+    tbody.append(createTableRow(data[i], 'td'));
+  }
+
+  const table = $('<table>')
+    .append(thead)
+    .append(tbody)
+    .append(tfoot);
+
+  // converts back to DOM element
+  return table[0];
+}
+
+function createTableRow(dataRow, cellType) {
+  const tr = $('<tr>');
+  for (let i = 0; i < dataRow.length; i++){
+      const td = $('<' + cellType + '>').text(dataRow[i]);
+      tr.append(td);
+  } 
+  return tr;
 }
