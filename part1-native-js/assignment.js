@@ -1,7 +1,7 @@
 // Define a function named createDiv that takes no arguments.
 // Return a <div> element.
 function createDiv() {
-
+  return document.createElement('div');
 }
 
 
@@ -10,7 +10,11 @@ function createDiv() {
 //
 // Return a <div> element with the given className.
 function createDivWithClass(className) {
+  const div = document.createElement('div');
 
+  div.className = className
+
+  return div;
 }
 
 
@@ -23,7 +27,15 @@ function createDivWithClass(className) {
 //     TIP: Applying a CSS class means adding on top of what's already there.
 //   * Make no change otherwise
 function updateTodoList(todoList) {
+  const listItems = todoList.getElementsByTagName('li');
 
+  for (let i = 0; i < listItems.length; i++) {
+    if (listItems[i].textContent.startsWith('COMPLETED')) {
+      listItems[i].remove();
+    } else if (listItems[i].textContent.startsWith('URGENT')) {
+      listItems[i].classList.add('important');
+    }
+  }
 }
 
 
@@ -55,7 +67,20 @@ function updateTodoList(todoList) {
 //      <li><a href="https://www.galvanize.com">Galvanize</a></li>
 //    </ul>
 function createList(sites) {
+  const ul = document.createElement('ul');
 
+  for (let title in sites) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    
+    a.setAttribute('href', sites[title]);
+    a.textContent = title;
+
+    li.appendChild(a);
+    ul.appendChild(li);
+  }
+
+  return ul;
 }
 
 
@@ -83,7 +108,24 @@ function createList(sites) {
 // TIP: Assume that if there's an opening double quote, there's a closing
 // double quote as well.
 function extractQuote(article) {
+  const p = article.getElementsByTagName('p')[0];
+  const firstQuoteIndex = p.textContent.indexOf('"');
 
+  if (firstQuoteIndex < 0) {
+    return;
+  }
+
+  // We assume there must be a closing quote
+  const lastQuoteIndex = p.textContent.lastIndexOf('"');
+  const blockquote = document.createElement('blockquote');
+
+  // Include the last quote
+  blockquote.textContent = p.textContent.substring(firstQuoteIndex, lastQuoteIndex + 1);
+
+  article.replaceChild(blockquote, p);
+  // Can also do
+  // p.remove();
+  // article.appendChild(blockquote)
 }
 
 
@@ -136,5 +178,35 @@ function extractQuote(article) {
 // TIP: Assume that the elements of the data array are equal in length.
 // non working copy
 function createTable(data) {
+  const thead = document.createElement('thead');
+  const tbody = document.createElement('tbody');
+  const tfoot = document.createElement('tfoot');
 
+  thead.appendChild(createTableRow(data[0], 'th'));
+  tfoot.appendChild(createTableRow(data[data.length - 1], 'td'));
+
+  for (let i= 1; i < data.length - 1; i++){
+    tbody.appendChild(createTableRow(data[i], 'td'));
+  }
+
+  const table = document.createElement('table')
+  
+  table.appendChild(thead)
+  table.appendChild(tbody)
+  table.appendChild(tfoot);
+
+  return table;
+}
+
+function createTableRow(dataRow, cellType) {
+  const tr = document.createElement('tr');
+
+  for (let i = 0; i < dataRow.length; i++){
+      const td = document.createElement(cellType);
+
+      td.textContent = dataRow[i];
+      tr.appendChild(td);
+  }
+  
+  return tr;
 }

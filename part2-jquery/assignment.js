@@ -37,6 +37,7 @@ function hideConfidentialText(article) {
 // is marked as "checked".
 function checkAll(checkbox) {
   const isChecked = $(checkbox).prop('checked');
+
   $(checkbox).siblings().prop('checked', isChecked);
 }
 
@@ -51,6 +52,7 @@ function checkAll(checkbox) {
 //   * Make no change otherwise.
 function updateTodoList(todoList) {
   const $list = $(todoList);
+
   $list.find('li:contains("COMPLETED")').remove();
   $list.find('li:contains("URGENT")').addClass('important');
 }
@@ -85,6 +87,7 @@ function updateTodoList(todoList) {
 //    </ul>
 function createList(sites) {
   const $ul = $('<ul>');
+
   for (title in sites) {
     const $li = $('<li>');
     const $a = $('<a>').attr('href', sites[title]).text(title);
@@ -191,7 +194,7 @@ function createTable(data) {
   thead.append(createTableRow(data[0], 'th'));
   tfoot.append(createTableRow(data[data.length - 1], 'td'));
 
-  for (let i= 1; i < data.length -1; i++){
+  for (let i= 1; i < data.length - 1; i++){
     tbody.append(createTableRow(data[i], 'td'));
   }
 
@@ -206,9 +209,11 @@ function createTable(data) {
 
 function createTableRow(dataRow, cellType) {
   const tr = $('<tr>');
+
   for (let i = 0; i < dataRow.length; i++){
       const td = $('<' + cellType + '>').text(dataRow[i]);
       tr.append(td);
-  } 
+  }
+
   return tr;
 }
